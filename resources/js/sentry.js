@@ -6,7 +6,7 @@ import * as Integrations from '@sentry/integrations';
 // console.log(process.env.SENTRY_RELEASE);
 // console.log(process.env.APP_ENVIRONMENT);
 // console.log(process.env.NODE_ENV);
-console.log(process.env.SENTRY_FRONTED_ENABLED);
+// console.log(process.env.SENTRY_FRONTED_ENABLED);
 
 Sentry.init({
   enabled: process.env.SENTRY_FRONTED_ENABLED,

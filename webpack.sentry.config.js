@@ -18,7 +18,7 @@ let devtool = false;
 let plugins = [
     new webpack.DefinePlugin({ // 设置环境变量信息
       "process.env.SENTRY_FRONTEND_DSN": JSON.stringify(process.env.MIX_SENTRY_FRONTEND_DSN), // the value from .env file, see: https://laravel.com/docs/7.x/mix
-      "process.env.SENTRY_RELEASE": gitSha,
+      "process.env.SENTRY_RELEASE": JSON.stringify(gitSha),
       "process.env.APP_ENVIRONMENT": process.env.APP_ENV,
       'process.env.SENTRY_FRONTED_ENABLED': isEnabled(),
     }),
