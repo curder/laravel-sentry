@@ -1,8 +1,0 @@
-[defaults]
-url = 'https://sentry.io'
-org = 'curder-sentry'
-project = 'laravel-vue-sentry'
-
-[auth]
-token=6edc5d45cecc41368cb9625609774423cf214a1aa84c4c90b4ddf1882d3266b8
-
