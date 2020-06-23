@@ -5,6 +5,7 @@ import * as Integrations from '@sentry/integrations';
 // console.log(process.env.MIX_SENTRY_FRONTEND_DSN);
 // console.log(process.env.MIX_SENTRY_RELEASE);
 // console.log(process.env.MIX_APP_ENVIRONMENT);
+// console.log(process.env.NODE_ENV);
 
 Sentry.init({
     dsn: process.env.MIX_SENTRY_FRONTEND_DSN,
@@ -20,7 +21,7 @@ Sentry.init({
     })
   ],
   release: process.env.MIX_SENTRY_RELEASE,
-  environment: process.env.MIX_APP_ENVIRONMENT,
+  environment: process.env.NODE_ENV,
 });
 
 // 在捕获错误的界面需要用到Sentry
