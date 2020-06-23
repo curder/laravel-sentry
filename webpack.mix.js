@@ -12,4 +12,17 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+    .extract(['vue', 'lodash', 'axios', 'jquery', 'bootstrap'])
+    .version();
+
+mix.webpackConfig(webpack => {
+    return {
+        plugins: [
+            new webpack.DefinePlugin({ // 设置环境变量信息
+              "process.env.SENTRY_DNS": JSON.stringify("https://52110924cacd4fd9855f3be5ba3825a1@o73575.ingest.sentry.io/5270899"),
+              "process.env.SENTRY_RELEASE": JSON.stringify(process.env.SENTRY_RELEASE), // `git rev-parse HEAD`,
+            })
+        ]
+    };
+});

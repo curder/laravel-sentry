@@ -1,8 +1,23 @@
 import Vue from 'vue'
 import * as Sentry from '@sentry/browser';
-import {Vue as VueIntegration} from '@sentry/integrations';
+import * as Integrations from '@sentry/integrations';
 
 Sentry.init({
-    dsn: 'https://52110924cacd4fd9855f3be5ba3825a1@o73575.ingest.sentry.io/5270899',
-    integrations: [new VueIntegration({Vue, attachProps: true, logErrors: true})],
+    dsn: process.env.SENTRY_DNS,
+    integrations: [
+    new Integrations.Vue({
+      Vue,
+      attachProps: true,
+      logErrors: true,
+      tracing: true,
+      tracingOptions: {
+        trackComponents: true,
+      }
+    })
+  ],
+  release: process.env.SENTRY_RELEASE,
+  environment: process.env.NODE_ENV,
 });
+
+// 在捕获错误的界面需要用到Sentry
+Vue.prototype.Sentry = Sentry

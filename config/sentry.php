@@ -9,7 +9,7 @@ return [
 
     'breadcrumbs' => [
         // Capture Laravel logs in breadcrumbs
-        'logs' => true,
+        'logs' => true, 
 
         // Capture SQL queries in breadcrumbs
         'sql_queries' => true,
