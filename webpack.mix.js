@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const SentryCliPlugin = require('@sentry/webpack-plugin');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,13 +17,33 @@ mix.js('resources/js/app.js', 'public/js')
     .extract(['vue', 'lodash', 'axios', 'jquery', 'bootstrap'])
     .version();
 
+const gitSha = require('child_process').execSync('git rev-parse HEAD').toString().trim()
+
 mix.webpackConfig(webpack => {
     return {
+        devtool: mix.inProduction() ? 'source-map' : false,
         plugins: [
             new webpack.DefinePlugin({ // 设置环境变量信息
-              "process.env.SENTRY_DNS": JSON.stringify("https://52110924cacd4fd9855f3be5ba3825a1@o73575.ingest.sentry.io/5270899"),
-              "process.env.SENTRY_RELEASE": JSON.stringify(process.env.SENTRY_RELEASE), // `git rev-parse HEAD`,
-            })
+              "process.env.SENTRY_DNS": process.env.MIX_SENTRY_FRONTEND_DSN, // the value from .env file, see: https://laravel.com/docs/7.x/mix
+              "process.env.SENTRY_RELEASE": gitSha,
+            }),
+            () => mix.inProduction() && process.env.MIX_SENTRY_ENABLED ?
+                    new SentryCliPlugin({
+                              include: './public/js',
+                              ignoreFile: '.sentrycliignore',
+                              ignore: ['node_modules', 'webpack.config.js', 'webpack.mix.js'],
+                              configFile: 'sentry.properties',
+                              urlPrefix: "~/js",
+                              dryRun: false,
+                              debug: true,
+                              release: gitSha, // process.env.SENTRY_RELEASE,
+                              deleteAfterCompile: true,
+                              setCommits: {
+                                // repo: "http://github.com/curder/laravel-sentry",
+                                // commit: gitSha, // JSON.stringify(process.env.SENTRY_RELEASE),
+                              }
+                            }) :
+                    false,
         ]
     };
 });
