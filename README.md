@@ -1,85 +1,92 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+## Laravel Sentry
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+[Sentry](https://sentry.io/) 是一个代码bug追踪平台，使用它可以将代码在执行时发生的错误存储在Sentry，方便后期溯源。
 
-## About Laravel
+应用上线之后，异常监控和告警是个必须要摆上台面的事情，否则等到用户反馈显得被动不说，而且往往已经是已经导致线上服务不可用一段时间了。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+这是我们不想看到的局面，本着早发现早处理，在第一时间及时响应的原则，我们有必要对线上异常和报错有一个实时监控和告警机制，一旦有异常，立即通过邮件等方式通知相关责任人，然后通过实时监控页面排查原因，进而定位问题进行处理。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Sentry 支持多种语言，常见的如：C#、Java、php、Python、Go、Javascript等等，它同时也支持本地部署。
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Laravel项目集成Sentry
 
-## Learning Laravel
+### 安装
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+执行命令下载软件包
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+``` 
+composer require sentry/sentry-laravel
+```
 
-## Laravel Sponsors
+### 配置
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- 发布配置
 
-### Premium Partners
+    ```
+    php artisan vendor:publish --provider="Sentry\SentryLaravel\SentryLaravelServiceProvider"
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
+- 本地配置
 
-### Community Sponsors
+    配置到 `.env.example` 文件：
 
-<a href="https://op.gg"><img src="http://opgg-static.akamaized.net/icon/t.rectangle.png" width="150"></a>
+    ```
+    echo "" >> .env.example                                     
+    echo "# Sentry Config" >> .env.example
+    echo SENTRY_LARAVEL_ENABLED=true >> .env.example
+    echo SENTRY_LARAVEL_DSN= >> .env.example
+    ```
+    配置到 `.env` 文件：
 
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [云软科技](http://www.yunruan.ltd/)
+    ```
+    echo "" >> .env                                     
+    echo "# Sentry Config" >> .env
+    echo SENTRY_LARAVEL_ENABLED=true >> .env
+    echo SENTRY_LARAVEL_DSN= >> .env
+    ```             
 
-## Contributing
+    > 修改对应的`SENTRY_LARAVEL_DNS`[1](#获取Laravel配置部署)的值。
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    >
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- 编辑 php 文件
 
-## Code of Conduct
+    接下里，也是最后一步，编辑 `App/Exceptions/Handler.php` 的 `report` 方法：
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    ``` 
+    public function report(Exception $exception)
+    {
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        }
 
-## Security Vulnerabilities
+        parent::report($exception);
+    }
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+至此配置完毕。
 
-## License
+### 测试
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+在 `routes/web.php` 新建一个路由： 
+```
+Route::get('/debug-sentry', function() {
+    throw new Exception('My first Sentry error!');
+});
+```
+访问，看看是否能在sentry后代获得错误。
+
+
+
+## 其他
+
+### 获取Laravel配置部署
+
+- 创建项目
+
+  ![](/resources/images/create-project.png)
+
+- 安装和配置
+
+  ![](/resources/images/install-and-configuration.png)
+
+如果忘记了可以在 这个地址：https://sentry.io/settings/<组织>/projects/<项目名>/keys/ 获取。
