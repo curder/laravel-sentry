@@ -46,7 +46,7 @@ composer require sentry/sentry-laravel
     ```             
 
     > 修改对应的`SENTRY_LARAVEL_DNS`[1](#获取Laravel配置部署)的值。
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    >
+
 
 - 编辑 php 文件
 
@@ -76,6 +76,7 @@ Route::get('/debug-sentry', function() {
 访问，看看是否能在sentry后代获得错误。
 
 
+## [VueJS项目集成Sentry](/README_VueJS.md)
 
 ## 其他
 

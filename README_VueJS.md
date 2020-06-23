@@ -136,7 +136,9 @@ yarn add @sentry/integrations --dev
 如果需要关闭和开启sentry追踪，修改`.env`中`MIX_SENTRY_FRONTED_ENABLED`的值。为`true`则开启，为`false`则关闭。
 
 > 修改了配置需要重新执行`yarn prod` 或者 `yarn watch` 编译脚本，才能生效
- 
+
+
+## [Laravel项目集成Sentry](/README.md) 
 
 
 ### 获取Vue配置部署
