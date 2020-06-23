@@ -2,14 +2,16 @@ import Vue from 'vue'
 import * as Sentry from '@sentry/browser';
 import * as Integrations from '@sentry/integrations';
 
-// console.log(process.env.MIX_SENTRY_FRONTEND_DSN);
-// console.log(process.env.MIX_SENTRY_RELEASE);
-// console.log(process.env.MIX_APP_ENVIRONMENT);
+// console.log(process.env.SENTRY_FRONTEND_DSN);
+// console.log(process.env.SENTRY_RELEASE);
+// console.log(process.env.APP_ENVIRONMENT);
 // console.log(process.env.NODE_ENV);
+console.log(process.env.SENTRY_FRONTED_ENABLED);
 
 Sentry.init({
-    dsn: process.env.MIX_SENTRY_FRONTEND_DSN,
-    integrations: [
+  enabled: process.env.SENTRY_FRONTED_ENABLED,
+  dsn: process.env.SENTRY_FRONTEND_DSN,
+  integrations: [
     new Integrations.Vue({
       Vue,
       attachProps: true,
@@ -20,7 +22,7 @@ Sentry.init({
       }
     })
   ],
-  release: process.env.MIX_SENTRY_RELEASE,
+  release: process.env.SENTRY_RELEASE,
   environment: process.env.NODE_ENV,
 });
 
