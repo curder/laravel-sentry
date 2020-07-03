@@ -23,7 +23,7 @@ composer require sentry/sentry-laravel
 - 发布配置
 
     ```
-    php artisan vendor:publish --provider="Sentry\SentryLaravel\SentryLaravelServiceProvider"
+    php artisan vendor:publish --provider="Sentry\Laravel\ServiceProvider"
     ```
     
     修改配置文件`config/sentry.php`内容
