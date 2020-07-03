@@ -67,6 +67,12 @@ composer require sentry/sentry-laravel
 
 ### 测试
 
+#### 方式一 使用命令行
+```
+php artisan sentry:test
+```
+
+#### 方式二 新建路由
 在 `routes/web.php` 新建一个路由： 
 ```
 Route::get('/debug-sentry', function() {
