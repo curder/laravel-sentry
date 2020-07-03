@@ -61,6 +61,10 @@ yarn add @sentry/integrations --dev
     ```
     
     在项目根目录下新增文件`webpack.sentry.config.js`，内容如下：
+    ```
+    yarn add @sentry/webpack-plugin --dev
+    ```
+    
     ```js
     const webpack = require('webpack');
     const SentryCliPlugin = require('@sentry/webpack-plugin');
@@ -99,11 +103,7 @@ yarn add @sentry/integrations --dev
                 urlPrefix: "~/js",
                 dryRun: false,
                 debug: false, // 是否开启调试
-                release: gitSha, // process.env.SENTRY_RELEASE,
-                setCommits: {
-                    repo: "http://github.com/curder/laravel-sentry",
-                    commit: gitSha, // JSON.stringify(process.env.SENTRY_RELEASE),
-                }
+                release: gitSha // process.env.SENTRY_RELEASE,
             })
         );
     }
