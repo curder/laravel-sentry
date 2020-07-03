@@ -14,14 +14,14 @@ yarn add @sentry/integrations --dev
     配置到 `.env.example` 文件：
 
     ```
-    echo MIX_SENTRY_FRONTEND_ENABLED=false
-    echo MIX_SENTRY_FRONTEND_DSN=
+    MIX_SENTRY_FRONTEND_ENABLED=false
+    MIX_SENTRY_FRONTEND_DSN=
     ```
     配置到 `.env` 文件：
 
     ```
-    echo MIX_SENTRY_FRONTEND_ENABLED=true
-    echo MIX_SENTRY_FRONTEND_DSN=
+    MIX_SENTRY_FRONTEND_ENABLED=true
+    MIX_SENTRY_FRONTEND_DSN=
     ```             
 
     > 修改 `.env` 文件对应的`MIX_SENTRY_FRONTEND_DSN`[1](#获取Vue配置部署)的值。
