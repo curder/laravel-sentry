@@ -116,6 +116,46 @@ Route::get('/debug-sentry', function() {
 访问，看看是否能在sentry后代获得错误。
 
 
+### 主动上报错误
+
+#### captureException方法
+
+```
+try {
+    aaaaaa();
+}catch(Throwable $e) {
+    Sentry\captureException($e);
+}
+```
+
+#### 自定义数据
+
+```
+try {
+    aaaaaa();
+}catch(Throwable $e) {
+    echo 'Error!';
+    // see: https://docs.sentry.io/platforms/php/#extra-context
+    Sentry\configureScope(function (Sentry\State\Scope $scope) {
+        $scope->setTag('dist.host', 'https://sentry.io');
+        $extra =  [
+            'status_code' => 401,
+            'response_message' => 'Client error: `POST https://URL` resulted in a `401 Unauthorized` response:',
+            'api_token' => 'abc',
+            'request_url' => 'https://sentry.io/request_url###',
+        ];
+        collect($extra)->each(function($item, $key) use ($scope) {
+            $scope->setExtra($key, $item);
+        });
+    });
+
+    Sentry\captureException($e);
+}
+```
+
+
+
+
 ## [VueJS项目集成Sentry](/README_VueJS.md)
 
 ## 其他
