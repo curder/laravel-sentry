@@ -59,6 +59,11 @@ yarn add @sentry/integrations --dev
     // 在捕获错误的界面需要用到Sentry
     Vue.prototype.Sentry = Sentry
     ```
+    在`resources/js/app.js`中添加一条引入语句。
+    
+    ```
+    require('./sentry');
+    ```
     
     在项目根目录下新增文件`webpack.sentry.config.js`，内容如下：
     ```
@@ -79,7 +84,8 @@ yarn add @sentry/integrations --dev
         return (/^true$/i).test(this);
     }
     const isEnabled = () => {
-        return process.env.MIX_SENTRY_FRONTED_ENABLED.boolean() && process.env.NODE_ENV === 'production';
+      const isEnabledString = process.env.MIX_SENTRY_FRONTEND_ENABLED || 'false';
+      return isEnabledString.boolean() && process.env.NODE_ENV === 'production';
     }
     
     let devtool = false;
