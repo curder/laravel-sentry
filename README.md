@@ -96,6 +96,18 @@ composer require sentry/sentry-laravel
         parent::report($exception);
     }
     ```
+- 如果项目有Nova，在`App\Providers\NovaServiceProvider`文件中重写父类的`registerExceptionHandler`方法：
+    ```
+    /**
+     * Register Nova's custom exception handler.
+     *
+     * @return void
+     */
+    protected function registerExceptionHandler()
+    {
+        $this->app->bind(NovaExceptionHandler::class, Handler::class);
+    }
+    ```
 
 至此配置完毕。
 
