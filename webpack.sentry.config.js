@@ -11,7 +11,7 @@ String.prototype.boolean = function () { // 字符串转boolean
     return (/^true$/i).test(this);
 }
 const isEnabled = () => {
-    return process.env.MIX_SENTRY_FRONTED_ENABLED.boolean() && process.env.NODE_ENV === 'production';
+    return process.env.MIX_SENTRY_FRONTEND_ENABLED.boolean() && process.env.NODE_ENV === 'production';
 }
 
 let devtool = false;
